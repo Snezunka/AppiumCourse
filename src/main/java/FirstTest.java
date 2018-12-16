@@ -89,6 +89,21 @@ public class FirstTest {
         Assert.assertEquals("Actual value of article title is not correct", "Java (programming language)", articleTitleElement.getText());
     }
 
+    @Test
+    public void testSearchWordExistInEachResult() {
+        String searchWord = "java";
+        waitForElementIsPresentAndClick(wikipediaSearch, "Wikipedia search is not present", 5);
+        waitForElementIsPresentAndSendKeys(searchInput, "Search input is not present", searchWord, 10);
+        checkThatArticlesPresentInSearchResult();
+        checkSearchWordInSearchResult(searchWord);
+    }
+
+    private void checkSearchWordInSearchResult(String expectedWord) {
+          for (Object element: driver.findElements(searchResults)) {
+              Assert.assertTrue(((WebElement) element).getText().toLowerCase().contains(expectedWord));
+          }
+    }
+
     @After
     public void tearDown() {
         driver.quit();
